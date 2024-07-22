@@ -1,7 +1,7 @@
-#include <iostream>
-#include <vector>
 #include <algorithm>
 #include <iomanip>
+#include <iostream>
+#include <vector>
 
 struct Term {
     int exponent;
@@ -18,10 +18,11 @@ std::vector<Term> readPolynomial() {
     return polynomial;
 }
 
-std::vector<Term> addPolynomials(const std::vector<Term>& A, const std::vector<Term>& B) {
+std::vector<Term> addPolynomials(const std::vector<Term> &A,
+                                 const std::vector<Term> &B) {
     std::vector<Term> result;
     int i = 0, j = 0;
-    
+
     while (i < A.size() && j < B.size()) {
         if (A[i].exponent > B[j].exponent) {
             result.push_back(A[i++]);
@@ -32,27 +33,31 @@ std::vector<Term> addPolynomials(const std::vector<Term>& A, const std::vector<T
             if (sum != 0) {
                 result.push_back({A[i].exponent, sum});
             }
-            i++; j++;
+            i++;
+            j++;
         }
     }
-    
-    while (i < A.size()) result.push_back(A[i++]);
-    while (j < B.size()) result.push_back(B[j++]);
-    
+
+    while (i < A.size())
+        result.push_back(A[i++]);
+    while (j < B.size())
+        result.push_back(B[j++]);
+
     return result;
 }
 
 int main() {
     std::vector<Term> A = readPolynomial();
     std::vector<Term> B = readPolynomial();
-    
+
     std::vector<Term> sum = addPolynomials(A, B);
-    
+
     std::cout << sum.size();
-    for (const auto& term : sum) {
-        std::cout << " " << term.exponent << " " << std::fixed << std::setprecision(1) << term.coefficient;
+    for (const auto &term : sum) {
+        std::cout << " " << term.exponent << " " << std::fixed
+                  << std::setprecision(1) << term.coefficient;
     }
     std::cout << std::endl;
-    
+
     return 0;
 }
