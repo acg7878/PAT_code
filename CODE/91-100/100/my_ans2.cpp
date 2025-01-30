@@ -17,7 +17,6 @@ std::map<int, std::string> high_month = {
     {9,"syy"},{10,"lok"},{11,"mer"},{12,"jou"}
 };
 
-
 std::string numToStr(std::string num){
     int n = std::stoi(num);
     if(n==0)return "tret";
