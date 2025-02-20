@@ -42,6 +42,6 @@ int main() {
             profit += mooncakes[index].price * margin;
         }
         index++;
-    }
+    }   
     std::cout << std::fixed << std::setprecision(2) << profit << std::endl; 
 }
