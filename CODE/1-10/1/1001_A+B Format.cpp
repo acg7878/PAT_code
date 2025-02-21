@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <algorithm>
 
 // 将数字格式化为带有千位分隔符的字符串
 std::string formatNumber(long long number) {
