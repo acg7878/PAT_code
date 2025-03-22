@@ -16,7 +16,7 @@ int main() {
             std::cout << coins[left] << " " << coins[right] << std::endl;
             return 0;
         } else if (sum > M)
-            right--;
+            right--;    
         else
             left++;
     }
