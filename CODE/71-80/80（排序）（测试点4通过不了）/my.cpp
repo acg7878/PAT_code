@@ -1,0 +1,84 @@
+#include <algorithm>
+#include <iostream>
+#include <set>
+#include <vector>
+
+struct Applicant {
+    int id, G_E, G_I;
+    std::vector<int> prefer_school;
+};
+
+bool cmp(const Applicant& a, const Applicant& b) {
+    double gradeA = (a.G_E + a.G_I) / 2.0;
+    double gradeB = (b.G_E + b.G_I) / 2.0;
+    return gradeA != gradeB ? gradeA > gradeB
+                            : (a.G_E != b.G_E ? a.G_E > b.G_E : a.id < b.id);
+}
+
+int main() {
+    int N, M, K;
+    std::cin >> N >> M >> K;
+    std::vector<int> quotas(M);
+    std::vector<std::set<int>> school(M);
+    std::vector<Applicant> applicants(N);
+
+    for (int i = 0; i < M; i++)
+        std::cin >> quotas[i];
+
+    for (int i = 0; i < N; i++) {
+        applicants[i].id = i;
+        std::cin >> applicants[i].G_E >> applicants[i].G_I;
+        applicants[i].prefer_school.resize(K);
+        for (int j = 0; j < K; j++) {
+            std::cin >> applicants[i].prefer_school[j];
+        }
+    }
+
+    std::sort(applicants.begin(), applicants.end(), cmp);
+    std::cout << "______________" << std::endl;
+    for(auto x : applicants) {
+        std::cout << x.id << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "______________" << std::endl;
+
+
+    for (int i = 0; i < N; i++) {
+        bool is_admitted = false;
+        for (auto index : applicants[i].prefer_school) {
+            if (quotas[index]){
+                school[index].insert(applicants[i].id);
+                quotas[index]--;
+                is_admitted = true;
+                break;
+            }
+        }
+        if(!is_admitted && i > 0) {
+            const Applicant& prev = applicants[i - 1];
+            if (applicants[i].G_E == prev.G_E && applicants[i].G_I == prev.G_I) {
+                for (auto index : prev.prefer_school) {
+                    if (school[index].count(i - 1)) {
+                        school[index].insert(applicants[i].id);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    for (const auto& enrollment_list : school) {
+        if (enrollment_list.empty()) {
+            std::cout << std::endl;
+        } else {
+            bool first = true;
+            for (auto id : enrollment_list) {
+                if (!first) std::cout << " ";
+                std::cout << id;
+                first = false;
+            }
+            std::cout << std::endl;
+        }
+    }
+
+    return 0;
+}
